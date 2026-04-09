@@ -1,18 +1,18 @@
-# app.py final y frondoso: Jardín de Nuestra Historia con Lluvia de Corazones y Texto Amarillo
+# app.py final y estable: Jardín Frondoso🌻, Texto Amarillo🌻 y Lluvia Amarilla🌻
 
-from flask import Flask
+from Flask import Flask
 import os
 
 app = Flask(__name__)
 
-# Diseño definitivo del "Jardín Mágico Frondoso"
+# Diseño definitivo del "Jardín Mágico Frondoso y Estable"
 html_content = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nuestro Jardín Mágico 💖🌻</title>
+<title>Nuestro Jardín Mágico 🌻💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
@@ -20,18 +20,13 @@ html_content = """
         margin: 0;
         height: 100vh;
         display: flex;
-        flex-direction: column; /* Alineación vertical para el texto arriba y el jardín abajo */
+        flex-direction: column; /* Alineación vertical */
         align-items: center;
-        justify-content: space-between; /* Espacio para el texto y las flores */
-        /* --- FONDO NEGRO CON ESTRELLITAS (Como en image_11.png) --- */
+        justify-content: space-between; /* Espacio para el texto arriba y el jardín abajo */
+        /* FONDO NEGRO CON ESTRELLITAS (Como en image_11.png) */
         background-color: #000;
-        background-image: 
-            radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-            radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-            radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-        background-size: 550px 550px, 350px 350px, 250px 250px;
-        background-position: 0 0, 40px 60px, 130px 270px;
         overflow: hidden;
+        font-family: 'Poppins', sans-serif;
     }
 
     /* --- TEXTO CON MENSAJE ESPECIAL (AMARILLO VIBRANTE) --- */
@@ -40,7 +35,7 @@ html_content = """
         text-align: center;
         opacity: 0; /* Invisible al inicio */
         transition: opacity 2s ease-in; /* Transición suave */
-        font-family: 'Poppins', sans-serif;
+        position: relative;
         z-index: 10; /* Por encima de todo */
         width: 100%;
     }
@@ -53,7 +48,7 @@ html_content = """
     /* TÍTULO PRINCIPAL - ¡HACER RESALTAR! */
     .text-overlay h2 {
         font-family: 'Dancing Script', cursive; /* APLICAMOS FUENTE BONITA y LEGIBLE */
-        font-size: 4rem; /* --- ¡¡GIGANTE!! --- Aumentado mucho para resaltar */
+        font-size: 3rem; /* Aumentado para resaltar */
         font-weight: 700; /* ¡¡NEGRILLA!! para resaltar */
         margin: 0;
         
@@ -64,159 +59,125 @@ html_content = """
 
     /* MENSAJE ESPECIAL POÉTICO (AMARILLO VIBRANTE) */
     .special-message {
-        font-family: 'Playfair Display', serif; /* FUENTE POÉTICA */
-        font-style: italic;
-        font-size: 1.4rem; /* Más grande para legibilidad */
-        color: #ffffcc; /* Amarillo muy suave */
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 300;
+        
+        /* --- ¡¡TEXTO AMARILLO VIBRANTE!! --- */
+        color: #ffff00;
+        
         margin: 15px 0;
         line-height: 1.6;
-        text-shadow: 0 0 8px rgba(255, 255, 0, 0.3); /* Contorno suave */
+        text-shadow: 0 0 5px rgba(255, 255, 0, 0.3); /* Contorno amarillo suave */
     }
 
-    /* EL JARDÍN - Contenedor Principal (Como en image_11.png) */
-    /* Mantenemos la lógica de image_8.png para que sea un corazón perfecto */
-    .garden-container {
+    /* CONTADOR - Con fuente legible AMARILLO VIBRANTE */
+    #time {
+        font-size: 1.1rem;
+        font-weight: 300;
+        margin-top: 15px;
+        color: #ffff00; /* Amarillo fuerte */
+    }
+
+    /* --- EL JARDÍN - Contenedor Principal (Sencillo y Estable) --- */
+    #garden {
         position: relative;
-        width: 600px; /* Ancho para la copa de image_11, ANTES 300 */
-        height: 600px; /* Altura total (antes 400) */
+        width: 100%;
+        height: 60vh; /* Altura del jardín ocupando la parte inferior */
+        z-index: 1; /* Las flores aparecen entre el tronco */
+    }
+
+    /* --- FLOR INDIVIDUAL MÁGICA (🌻 Como pediste) --- */
+    /* Usamos la lógica de image_15.png para que sea una flor normal */
+    .flower-magic {
+        position: absolute;
+        bottom: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-end; /* Tronco abajo */
-    }
-
-    /* TRONCO/TALLOS REALISTAS (SVG) */
-    .bouquet-wrapper-svg {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        height: 100%;
-        z-index: 2; /* Por encima de los tallos */
-        opacity: 0;
-        animation: fadeIn 2s ease-in forwards;
-        animation-delay: 0.5s; /* Aparece primero */
-    }
-    /* Estilos para el envoltorio de image_10.png */
-    .paper { fill: #f5e0c0; } /* Café clarito */
-    .ribbon { fill: #f8c8b8; } /* Rosa clarito */
-    .line { fill: none; stroke: #a0522d; stroke-width: 1px; }
-
-    /* COPA DEL JARDÍN - Contenedor invisible al inicio (SOBRE EL ENVOLTORIO) */
-    .garden-flowers {
-        position: absolute;
-        top: 20px; /* Arriba de las ramas (Copa) */
-        width: 600px; /* Ancho de la copa */
-        height: 600px; /* Altura de la copa (Círculo perfecto) */
-        z-index: 1; /* Las flores aparecen entre las ramas */
-    }
-
-    /* FLOR INDIVIDUAL MÁGICA (🌻🌻🌻 Como pediste) */
-    .flower-magic {
-        position: absolute;
-        width: 25px; /* Un poco más grandes (antes 20) */
-        height: 35px; /* Más alto para la forma de flor */
-        background: #ffff66; /* Amarillo vibrante */
-        border-radius: 50% 50% 0 0; /* Forma de flor de tulipán/girasol */
+        animation: flowerGrow 1.5s ease-out forwards;
         transform: scale(0);
         opacity: 0;
-        animation: flowerGrow 1.5s ease-out forwards;
-        
-        /* --- ¡¡BRILLO MÁGICO!! (Como en image_10.png) --- */
-        box-shadow: 0 0 15px rgba(255, 255, 102, 0.8), 
-                    0 0 25px rgba(255, 255, 102, 0.5); 
     }
     
-    /* Efecto de pétalos */
-    .flower-magic::before, .flower-magic::after {
-        content: '';
-        position: absolute;
-        width: 25px;
-        height: 35px;
-        background: inherit;
-        border-radius: inherit;
-        top: 0;
-        z-index: -1;
+    /* El Tallo */
+    .stem {
+        width: 3px;
+        background: linear-gradient(to top, #1a4d1a, #2d862d);
+        border-radius: 2px;
     }
-    .flower-magic::before { left: -5px; }
-    .flower-magic::after { left: 5px; }
 
-    /* --- LLUVIA DE CORAZONES POR TODA LA PANTALLA - Recuperada --- */
+    /* La Cabeza de la Flor (Pétalos y Centro🌻) */
+    .flower-head {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        margin-bottom: -5px;
+    }
+
+    .petal {
+        position: absolute;
+        width: 12px;
+        height: 20px;
+        background: #ffff66; /* Amarillo vibrante */
+        border-radius: 50%;
+        left: 9px;
+        top: 0;
+        transform-origin: center bottom;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    /* Centro de la flor🌻 */
+    .center {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #5c3d00;
+        border-radius: 50%;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+    }
+
+    /* --- LLUVIA DE CORAZONES AMARILLOS POR TODA LA PANTALLA --- */
     .heart-rain {
         position: absolute;
-        width: 12px;
-        height: 12px;
-        background: #ff0055; /* Color rojo vibrante */
-        transform: rotate(-45deg);
-        opacity: 0.8;
+        color: #ffffcc; /* Amarillo suave brillante */
+        font-size: 20px;
+        user-select: none;
+        pointer-events: none;
         animation: heartRainFall linear forwards;
-        z-index: 3;
+        z-index: 3; /* Por encima del jardín, debajo del texto */
     }
-
-    .heart-rain::before, .heart-rain::after {
-        content: '';
-        position: absolute;
-        width: 12px;
-        height: 12px;
-        background: inherit;
-        border-radius: 50%;
-    }
-
-    .heart-rain::before { top: -6px; left: 0; }
-    .heart-rain::after { left: 6px; top: 0; }
 
     /* ANIMACIONES */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translate(-50%, 20px); }
-        to { opacity: 1; transform: translate(-50%, 0); }
-    }
-
     @keyframes flowerGrow {
-        0% { transform: scale(0); opacity: 0; }
-        15% { opacity: 1; }
-        100% { transform: scale(1); opacity: 0.95; }
+        from { transform: translateY(100px) scale(0); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 0.95; }
     }
 
     @keyframes heartRainFall {
-        0% { transform: translateY(-50px) rotate(-45deg); opacity: 0.8; }
-        100% { transform: translateY(110vh) rotate(-45deg); opacity: 0; }
+        to { transform: translateY(110vh); }
     }
 </style>
 </head>
 <body>
 
 <div class="text-overlay" id="text-overlay">
-    <h2>Nuestra historia... 💖</h2>
+    <h2>Nuestra historia... 💖🌻</h2>
 </div>
 
-<div class="container">
-    <div class="garden-container">
-        <svg class="bouquet-wrapper-svg" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
-            <path class="paper" d="M150,450 C120,400 100,350 110,300 C120,250 150,200 180,180 C210,160 250,150 280,160 C310,170 340,190 360,210 C380,230 400,260 410,300 C420,340 400,380 370,430 Z"/>
-            <path class="paper" d="M370,430 L150,450 C180,480 220,500 260,510 C300,520 340,510 370,480 Z"/>
-            
-            <path class="trunk" d="M300,580 C290,500 280,480 270,450 S250,400 240,380 C230,360 210,340 180,330 S150,300 130,280 C110,260 90,230 100,200 C110,170 140,150 170,160 S200,190 220,210 C240,230 260,250 280,260 C300,270 320,260 340,250 C360,240 380,220 400,200 C420,180 440,160 470,170 C500,180 520,210 510,240 C500,270 480,290 460,310 S430,330 400,340 C370,350 350,370 340,390 C330,410 320,440 310,470 S305,520 300,580 Z M320,280 C330,270 340,260 350,250 S370,230 390,220 C410,210 430,190 450,200 S470,220 460,240 C450,260 430,280 410,290 S390,300 370,310 C350,320 330,300 320,280 Z M280,280 C270,270 260,260 250,250 S230,230 210,220 C190,210 170,190 150,200 S130,220 140,240 C150,260 170,280 190,290 S210,300 230,310 C250,320 270,300 280,280 Z"/>
-            
-            <path class="ribbon" d="M300,550 L270,520 L240,550 L270,580 Z"/>
-            <path class="line" d="M300,550 L300,580"/>
-            <path class="line" d="M300,580 C290,590 270,600 250,590 C230,580 220,560 230,540 L260,510 Z"/>
-            <path class="line" d="M300,580 C310,590 330,600 350,590 C370,580 380,560 370,540 L340,510 Z"/>
-            <path class="line" d="M150,450 C180,420 220,400 260,390 S340,400 370,430"/>
-        </svg>
-        <div class="garden-flowers" id="garden-flowers"></div>
-    </div>
-</div>
+<div id="garden"></div>
 
 <script>
-    const gardenFlowers = document.getElementById('garden-flowers');
+    const garden = document.getElementById('garden');
     const textOverlay = document.getElementById('text-overlay');
-    const colors = ['#ffff66', '#ffff99', '#ffffcc', '#fff8dc']; // Variaciones de amarillo vibrante
+    const flowerColors = ['#ffff66', '#ffff99', '#ffffcc', '#fff8dc']; // Variaciones de amarillo vibrante
 
     // Configuración de la animación progresiva
-    const TOTAL_FLOWERS = 150; // --- ¡¡ FRONDOSIDAD GIGANTE !! --- Flores totales para formar el jardín (antes 15)
+    const TOTAL_FLOWERS = 150; // --- ¡¡ FRONDOSIDAD GIGANTE !! --- Flores totales repartidas (antes 15)
     const INTERVAL_MS = 100; // Una flor cada 100ms
-    const TEXT_DELAY_MS = 2000; // Esperar solo 2s antes de mostrar el texto (Rápido)
+    const TEXT_DELAY_MS = 28000; // Esperar 28 segundos antes de mostrar el texto
 
     let flowersCreated = 0;
 
@@ -227,59 +188,56 @@ html_content = """
         }
 
         const flower = document.createElement('div');
-        flower.classList.add('flower-magic');
+        flower.className = 'flower-magic';
         
-        // --- LÓGICA DE DISTRIBUCIÓN ESFÉRICA PERFECTA (COPA REDONDA de image_8) ---
-        // Radio de la copa (mitad del diámetro de .garden-flowers)
-        const radiusCopa = 280; // Aumentado para el jardín frondoso, ANTES 150
+        // --- LÓGICA DE DISTRIBUCIÓN FRONDOSA (Como pediste🌻🌻🌻) ---
+        // Posicionamiento horizontal aleatorio por todo el ancho de la pantalla
+        const randomX = Math.random() * (window.innerWidth - 60) + 30; // Evitamos los bordes
         
-        // Lógica de crecimiento ascendente (nace desde abajo)
-        const currentProgress = flowersCreated / TOTAL_FLOWERS; // Valor de 0 a 1
-        
-        // 1. Calculamos la altura (Y) progresivamente, pero dentro de la esfera
-        const baseY = 580; // Aumentado para jardín frondoso (antes 280)
-        const heightFactor = 2 * radiusCopa; // Diámetro
-        const y_esfera = (baseY - radiusCopa) + radiusCopa - (heightFactor * currentProgress); 
+        // Altura aleatoria del tallo para naturalidad
+        const stemHeight = Math.floor(Math.random() * 150) + 100;
+        flower.style.left = randomX + 'px';
+        flower.style.bottom = '50px'; // Un poco sobre el fondo
 
-        // 2. Calculamos el Radio X Máximo en esta altura Y (Fórmula de la Esfera)
-        const yRelativaCentroEsfera = y_esfera - (baseY - radiusCopa); 
-        const maxRadiusX = Math.sqrt(Math.pow(radiusCopa, 2) - Math.pow(yRelativaCentroEsfera, 2));
+        // Cabeza de la flor
+        const head = document.createElement('div');
+        head.className = 'flower-head';
 
-        // 3. Posicionamiento Aleatorio Circular pero acotado por maxRadiusX
-        const angle = Math.random() * Math.PI * 2;
-        
-        // Radio real X se acota para no salir de la esfera
-        const randomRadiusFactor = Math.random() * 0.95; // Llenamos más la copa (antes 0.9)
-        const actualRadiusX = maxRadiusX * randomRadiusFactor;
-        
-        // Coordenadas Finales
-        const x_final = (radiusCopa + 20) + Math.cos(angle) * actualRadiusX; // Centro X (mitad de la copa)
-        const y_final = y_esfera;
+        // Crear 6 pétalos (flores normales sunflower-like)
+        for (let i = 0; i < 6; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.transform = `rotate(${i * 60}deg)`;
+            petal.style.backgroundColor = flowerColors[Math.floor(Math.random() * flowerColors.length)];
+            head.appendChild(petal);
+        }
 
-        // --- APLICAMOS COORDENADAS ---
-        flower.style.left = `${x_final}px`;
-        flower.style.top = `${y_final}px`;
-        flower.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        
-        // Tamaño aleatorio para naturalidad
-        const size = Math.random() * 10 + 15; // Más variados y grandes
-        flower.style.width = `${size}px`;
-        flower.style.height = `${size + 10}px`; // Flores alargadas
+        const center = document.createElement('div');
+        center.className = 'center';
+        head.appendChild(center);
 
-        gardenFlowers.appendChild(flower);
+        // Tallo
+        const stem = document.createElement('div');
+        stem.className = 'stem';
+        stem.style.height = stemHeight + 'px';
+
+        flower.appendChild(head);
+        flower.appendChild(stem);
+        garden.appendChild(flower);
         flowersCreated++;
     }
 
-    // --- LLUVIA DE CORAZONES POR TODA LA PANTALLA - Recuperada ---
-    function createRainHeart() {
+    // --- LLUVIA DE CORAZONES AMARILLOS POR TODA LA PANTALLA ---
+    setInterval(() => {
         const heart = document.createElement('div');
-        heart.classList.add('heart-rain');
+        heart.innerHTML = '❤️';
+        heart.className = 'heart-rain';
         
         // Posicionamiento horizontal aleatorio por todo el ancho de la pantalla
         heart.style.left = Math.random() * 100 + 'vw';
         
-        // Color aleatorio
-        heart.style.backgroundColor = '#ff0055'; // Rojo vibrante
+        // Altura inicial arriba (fuera de la pantalla)
+        heart.style.top = '-20px';
         
         // Velocidad aleatoria para naturalidad (caída entre 3 y 6 segundos)
         const fallDuration = Math.random() * 3 + 3;
@@ -291,19 +249,16 @@ html_content = """
         setTimeout(() => {
             heart.remove();
         }, fallDuration * 1000);
-    }
+    }, 300); // Un corazón cada 300ms
 
     // --- INICIAMOS LA CREACIÓN PROGRESIVA DE FLORES (EL JARDÍN NACE) ---
-    // Esperamos 1s para que el envoltorio se muestre primero
+    // Esperamos 1.5s para que se muestre primero el fondo estrellado
     setTimeout(() => {
         const flowerInterval = setInterval(createMagicFlower, INTERVAL_MS);
-    }, 1000);
+    }, 1500);
 
-    // --- INICIAMOS LA LLUVIA DE CORAZONES ---
-    setInterval(createRainHeart, 400);
-
-    // --- LÓGICA DEL TEXTO DIFERIDO (¡¡RÁPIDO!!) ---
-    // Mostramos el texto tras el retraso configurado (rápido)
+    // --- LÓGICA DEL TEXTO DIFERIDO (LAS LETRAS SALEN AL FINAL) ---
+    // Mostramos el texto después del retraso configurado
     setTimeout(() => {
         textOverlay.classList.add('visible');
     }, TEXT_DELAY_MS);
