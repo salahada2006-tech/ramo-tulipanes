@@ -1,11 +1,11 @@
-# app.py completo para el nuevo proyecto: Ramo Gigante de Tulipanes Mágicos
+# app.py completo y final: Ramo Gigante de Tulipanes Mágicos y Lluvia Amarilla
 
 from flask import Flask
 import os
 
 app = Flask(__name__)
 
-# Diseño definitivo del "Ramo Gigante de Tulipanes Mágicos y Brillantes"
+# Diseño definitivo del "Ramo Gigante de Tulipanes con Lluvia Amarilla y Texto Amarillo"
 html_content = """
 <!DOCTYPE html>
 <html lang="es">
@@ -26,15 +26,28 @@ html_content = """
         display: flex;
         align-items: center;
         justify-content: center;
-        /* --- FONDO OSCURO CON ESTRELLITAS (Como en image_10.png) --- */
+        /* FONDO OSCURO CON ESTRELLITAS (Como en image_10.png) */
         background-color: #000;
-        background-image: 
-            radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-            radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-            radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-        background-size: 550px 550px, 350px 350px, 250px 250px;
-        background-position: 0 0, 40px 60px, 130px 270px;
         overflow: hidden;
+        position: relative;
+    }
+
+    /* --- NUBES EN FORMA DE CORAZÓN (SVG) - Recuperadas --- */
+    .nube-corazon {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        opacity: 0.5; /* Suave */
+        animation: moverNubes 60s linear infinite;
+        z-index: 1;
+    }
+    .nube-corazon path {
+        fill: white;
+    }
+
+    @keyframes moverNubes {
+        0% { transform: translateX(-150px); }
+        100% { transform: translateX(calc(100vw + 150px)); }
     }
 
     .container {
@@ -42,8 +55,9 @@ html_content = """
         flex-direction: column;
         align-items: center;
         width: 100%;
-        max-width: 600px; /* Ancho para el ramo gigante */
+        max-width: 600px;
         position: relative;
+        z-index: 5; /* Por encima de las nubes y la lluvia */
     }
 
     /* --- EL RAMO GIGANTE - Contenedor Principal (Como en image_10.png) --- */
@@ -67,7 +81,7 @@ html_content = """
         height: 100%;
         z-index: 2; /* Por encima de los tallos */
         opacity: 0;
-        animation: fadeIn bouquets 2s ease-in forwards;
+        animation: fadeIn Bouquet 2s ease-in forwards;
         animation-delay: 0.5s; /* Aparece primero */
     }
     /* Estilos para el envoltorio y moño SVG (Como en image_10.png) */
@@ -79,7 +93,7 @@ html_content = """
     .bouquet-flowers {
         position: absolute;
         top: 20px; /* Arriba de las ramas (Copa) */
-        width: 450px; /* Ancho de la copa (antes 300) */
+        width: 450px; /* Ancho de la copa */
         height: 450px; /* Altura de la copa (Círculo perfecto) */
         z-index: 1; /* Los tulipanes aparecen entre las ramas */
     }
@@ -87,7 +101,7 @@ html_content = """
     /* TULIPÁN INDIVIDUAL MÁGICO */
     .tulip-flower {
         position: absolute;
-        width: 25px; /* Un poco más grandes (antes 20) */
+        width: 25px; /* Un poco más grandes */
         height: 35px; /* Más alto para la forma de tulipán */
         background: #ffff66; /* Amarillo vibrante */
         border-radius: 50% 50% 0 0; /* Forma de campana de tulipán */
@@ -114,7 +128,31 @@ html_content = """
     .tulip-flower::before { left: -5px; }
     .tulip-flower::after { left: 5px; }
 
-    /* TEXTO CON MENSAJE ESPECIAL Y CONTADOR - ¡HACER RESALTAR EN FUCSIA! */
+    /* --- LLUVIA DE CORAZONES AMARILLOS POR TODA LA PANTALLA --- */
+    .heart-rain {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #ffff66; /* Amarillo fuerte */
+        transform: rotate(-45deg);
+        opacity: 0.8;
+        animation: heartRainFall linear forwards;
+        z-index: 3;
+    }
+
+    .heart-rain::before, .heart-rain::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: inherit;
+        border-radius: 50%;
+    }
+
+    .heart-rain::before { top: -6px; left: 0; }
+    .heart-rain::after { left: 6px; top: 0; }
+
+    /* TEXTO CON MENSAJE ESPECIAL Y CONTADOR - ¡HACER RESALTAR EN AMARILLO! */
     .text-overlay {
         margin-top: -30px; /* Un poco más cerca del ramo */
         text-align: center;
@@ -131,40 +169,43 @@ html_content = """
         opacity: 1;
     }
 
-    /* TÍTULO PRINCIPAL - ¡HACER RESALTAR EN FUCSIA! */
+    /* TÍTULO PRINCIPAL - ¡HACER RESALTAR EN AMARILLO FUERTE! */
     .text-overlay h2 {
         font-family: 'Dancing Script', cursive; /* APLICAMOS FUENTE BONITA y LEGIBLE */
         font-size: 2.8rem;
         font-weight: 700; /* ¡¡NEGRILLA!! para resaltar */
         margin: 0;
         
-        /* --- ¡¡TEXTO FUCSIA VIBRANTE!! --- */
-        color: #ff007f; /* Color fucsia */
-        text-shadow: 0 0 10px rgba(255, 0, 127, 0.5); /* Contorno fucsia suave */
+        /* --- ¡¡TEXTO AMARILLO FUERTE VIBRANTE!! --- */
+        color: #ffff00; /* Color amarillo fuerte */
+        text-shadow: 0 0 10px rgba(255, 255, 0, 0.5); /* Contorno amarillo suave */
     }
 
-    /* MENSAJE ESPECIAL POÉTICO Y LEGIBLE */
+    /* MENSAJE ESPECIAL POÉTICO Y LEGIBLE AMARILLO */
     .special-message {
-        font-family: 'Playfair Display', serif; /* FUENTE POÉTICA */
-        font-style: italic;
-        font-size: 1.2rem;
-        color: #fff; /* Blanco para que resalte en oscuro */
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 300;
+        
+        /* --- ¡¡TEXTO AMARILLO FUERTE VIBRANTE!! --- */
+        color: #ffff00;
+        
         margin: 15px 0;
         line-height: 1.6;
-        text-shadow: 0 0 8px rgba(0,0,0,0.5); /* Contorno suave */
+        text-shadow: 0 0 5px rgba(255, 255, 0, 0.3); /* Contorno amarillo suave */
     }
 
-    /* CONTADOR - Con fuente legible */
+    /* CONTADOR - Con fuente legible AMARILLO */
     #time {
         font-size: 1.1rem;
         font-weight: 300;
         margin-top: 15px;
         font-family: 'Poppins', sans-serif;
-        color: white;
+        color: #ffff00; /* Amarillo fuerte */
     }
 
     /* ANIMACIONES */
-    @keyframes fadeInBouquet {
+    @keyframes fadeIn Bouquet {
         from { opacity: 0; transform: translate(-50%, 20px); }
         to { opacity: 1; transform: translate(-50%, 0); }
     }
@@ -174,9 +215,24 @@ html_content = """
         15% { opacity: 1; }
         100% { transform: scale(1); opacity: 0.95; }
     }
+
+    @keyframes heartRainFall {
+        0% { transform: translateY(-50px) rotate(-45deg); opacity: 0.8; }
+        100% { transform: translateY(110vh) rotate(-45deg); opacity: 0; }
+    }
 </style>
 </head>
 <body>
+
+<svg class="nube-corazon" style="top: 5vh; animation-delay: 0s;" viewBox="0 0 512 512">
+    <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/>
+</svg>
+<svg class="nube-corazon" style="top: 25vh; animation-delay: -20s; width: 100px; height: 100px;" viewBox="0 0 512 512">
+    <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/>
+</svg>
+<svg class="nube-corazon" style="top: 15vh; animation-delay: -40s; width: 80px; height: 80px;" viewBox="0 0 512 512">
+    <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/>
+</svg>
 
 <div class="container">
     <div class="bouquet-container">
@@ -184,7 +240,7 @@ html_content = """
             <path class="paper" d="M150,450 C120,400 100,350 110,300 C120,250 150,200 180,180 C210,160 250,150 280,160 C310,170 340,190 360,210 C380,230 400,260 410,300 C420,340 400,380 370,430 Z"/>
             <path class="paper" d="M370,430 L150,450 C180,480 220,500 260,510 C300,520 340,510 370,480 Z"/>
             
-            <path class="trunk" d="M300,580 C290,500 280,480 270,450 S250,400 240,380 C230,360 210,340 180,330 S150,300 130,280 C110,260 90,230 100,200 C110,170 140,150 170,160 S200,190 220,210 C240,230 260,250 280,260 C300,270 320,260 340,250 C360,240 380,220 400,200 C420,180 440,160 470,170 C500,180 520,210 510,240 C500,270 480,290 460,310 S430,330 400,340 C370,350 350,370 340,390 C330,410 320,440 310,470 S305,520 300,580 Z M320,280 C330,270 340,260 350,250 S370,230 390,220 C410,210 430,190 450,200 S470,220 460,240 C450,260 430,280 410,290 S390,300 370,310 C350,320 330,300 320,280 Z M280,280 C270,270 260,260 250,250 S230,230 210,220 C190,210 170,190 150,200 S130,220 140,240 C150,260 170,280 190,290 S210,300 230,310 C250,320 270,300 280,280 Z"/>
+            <path class="trunk" d="M300,580 C290,500 280,480 270,450 S250,400 240,380 C230,360 210,340 180,330 S150,300 130,280 C110,260 90,230 100,200 C110,170 140,150 170,160 S200,190 220,210 C240,230 260,250 280,260 C300,270 320,260 340,250 C360,240 380,220 400,200 C420,180 440,160 470,170 C500,180 520,210 510,240 C500,270 480,290 460,310 S430,330 400,340 C370,350 350,370 340,390 C330,410 320,440 310,470 S305,520 300,580 Z"/>
             
             <path class="ribbon" d="M300,550 L270,520 L240,550 L270,580 Z"/>
             <path class="line" d="M300,550 L300,580"/>
@@ -211,9 +267,10 @@ html_content = """
 <script>
     const bouquetFlowers = document.getElementById('bouquet-flowers');
     const textOverlay = document.getElementById('text-overlay');
+    const colors = ['#ffff66', '#ffff99', '#ffffcc', '#fff8dc']; // Variaciones de amarillo vibrante
 
     // Configuración de la animación progresiva
-    const TOTAL_TULIPS = 350; // --- ¡¡GIGANTE!! --- Tulipanes totales para formar el ramo (antes 300 corazones)
+    const TOTAL_TULIPS = 380; // --- ¡¡GIGANTE!! --- Tulipanes totales para formar el ramo
     const INTERVAL_MS = 100; // Un tulipán cada 100ms
     const TEXT_DELAY_MS = 32000; // Esperar 32 segundos antes de mostrar el texto
 
@@ -229,14 +286,14 @@ html_content = """
         tulip.classList.add('tulip-flower');
         
         // --- LÓGICA DE DISTRIBUCIÓN ESFÉRICA PERFECTA (COPA REDONDA de image_8) ---
-        // Radio de la copa (mitad del diámetro de .bouquet-flowers, ANTES 150)
-        const radiusCopa = 190; // Aumentado para el ramo gigante
+        // Radio de la copa (mitad del diámetro de .bouquet-flowers)
+        const radiusCopa = 190; 
         
         // Lógica de crecimiento ascendente (nace desde abajo)
         const currentProgress = tulipsCreated / TOTAL_TULIPS; // Valor de 0 a 1
         
         // 1. Calculamos la altura (Y) progresivamente, pero dentro de la esfera
-        const baseY = 330; // Aumentado para ramo gigante (antes 280)
+        const baseY = 330; 
         const heightFactor = 2 * radiusCopa; // Diámetro
         const y_esfera = (baseY - radiusCopa) + radiusCopa - (heightFactor * currentProgress); 
 
@@ -248,7 +305,7 @@ html_content = """
         const angle = Math.random() * Math.PI * 2;
         
         // Radio real X se acota para no salir de la esfera
-        const randomRadiusFactor = Math.random() * 0.95; // Llenamos más la copa (antes 0.9)
+        const randomRadiusFactor = Math.random() * 0.95; // Llenamos más la copa
         const actualRadiusX = maxRadiusX * randomRadiusFactor;
         
         // Coordenadas Finales
@@ -258,9 +315,10 @@ html_content = """
         // --- APLICAMOS COORDENADAS ---
         tulip.style.left = `${x_final}px`;
         tulip.style.top = `${y_final}px`;
+        tulip.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         
         // Tamaño aleatorio para naturalidad
-        const size = Math.random() * 15 + 15; // Más variados y grandes (antes 10)
+        const size = Math.random() * 15 + 15; // Más variados y grandes
         tulip.style.width = `${size}px`;
         tulip.style.height = `${size + 10}px`; // Tulipanes alargados
 
@@ -268,11 +326,38 @@ html_content = """
         tulipsCreated++;
     }
 
+    // --- LLUVIA DE CORAZONES AMARILLOS POR TODA LA PANTALLA ---
+    function createRainHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart-rain');
+        
+        // Posicionamiento horizontal aleatorio por todo el ancho de la pantalla
+        heart.style.left = Math.random() * 100 + 'vw';
+        
+        // Color aleatorio
+        heart.style.backgroundColor = '#ffff66'; // Amarillo fuerte
+        
+        // Velocidad aleatoria para naturalidad (caída entre 4 y 7 segundos)
+        const fallDuration = Math.random() * 3 + 4;
+        heart.style.animationDuration = `${fallDuration}s`;
+
+        document.body.appendChild(heart);
+
+        // Eliminamos el corazón cuando termina su caída para no saturar la memoria
+        setTimeout(() => {
+            heart.remove();
+        }, fallDuration * 1000);
+    }
+
     // --- INICIAMOS LA CREACIÓN PROGRESIVA DE TULIPANES (EL RAMO NACE) ---
-    // Esperamos 2s para que se muestre el envoltorio realista
+    // Esperamos 2.5s para que se muestre el envoltorio realista
     setTimeout(() => {
         const tulipInterval = setInterval(createTulip, INTERVAL_MS);
-    }, 2000);
+    }, 2500);
+
+    // --- INICIAMOS LA LLUVIA DE CORAZONES AMARILLOS ---
+    // Un corazón de lluvia cada 450ms
+    setInterval(createRainHeart, 450);
 
     // --- LÓGICA DEL TEXTO DIFERIDO (LAS LETRAS SALEN AL FINAL) ---
     // Mostramos el texto después del retraso configurado
